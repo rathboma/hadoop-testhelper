@@ -110,8 +110,14 @@ public class MRTester {
 
       CompressionCodec codec = factory.getCodec(item.getPath());
       InputStream stream = null;
-      if (codec != null) stream = codec.createInputStream(fileSystem.open(item.getPath()));
-      else stream = fileSystem.open(item.getPath());
+
+      // check if we have a compression codec
+      if (codec != null) {
+        stream = codec.createInputStream(fileSystem.open(item.getPath()));
+      }
+      else {
+        stream = fileSystem.open(item.getPath());
+      }
 
       StringWriter writer = new StringWriter();
       IOUtils.copy(stream, writer, "UTF-8");
