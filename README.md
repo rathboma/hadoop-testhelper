@@ -32,7 +32,7 @@ public void testMyHadoopJob() {
       MyMapReducePipeline.main(inputDirectory.toString(), outputDirectory.toString(), args.conf);
 
       // these are the outputs to our job, we can now assert results. It can read compressed files.
-      List<String> results = runner.CollectStrings(outputDirectory);
+      List<String> results = runner.collectStrings(outputDirectory);
       Assert.assertEquals("number of results is correct", results.size(), 10);
 
       // we also have access to the filesystem if we want to check other stuff:
