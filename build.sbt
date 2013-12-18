@@ -18,11 +18,13 @@
 
 name := "hadoop-testhelper"
 
-version := "0.1.0-SNAPSHOT"
+version := "0.1.0"
 
 scalaVersion := "2.10.2"
 
 organization := "com.matthewrathbone"
+
+publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.mvn")))
 
 libraryDependencies ++= {
     Seq(
