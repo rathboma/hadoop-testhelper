@@ -43,6 +43,8 @@ resolvers ++= Seq(
  
 scalacOptions ++= Seq("-unchecked", "-deprecation")
 
+javacOptions ++= Seq("-Xlint:deprecation")
+
 crossPaths:= false
 
 // seq(ScctPlugin.scctSettings: _*)

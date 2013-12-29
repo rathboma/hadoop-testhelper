@@ -21,6 +21,8 @@ import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.compress.CompressionCodecFactory;
 import org.apache.hadoop.io.compress.CompressionCodec;
+import org.apache.hadoop.io.SequenceFile;
+import org.apache.hadoop.io.Writable;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.StringWriter;
@@ -97,6 +99,24 @@ public class MRTester {
     }
     return dir;
   }
+
+  public <A extends Writable, B extends Writable> List<Tuple<A, B>> readSequenceFile(Path path, Class<A> acls, Class<B> bcls) throws Exception {
+    
+    SequenceFile.Reader reader = new SequenceFile.Reader(this.conf, SequenceFile.Reader.file(path));
+    long position = reader.getPosition();
+
+    A key = acls.newInstance();
+    B value = bcls.newInstance();
+
+    List<Tuple<A, B>> results = new ArrayList<Tuple<A,B>>();
+    while(reader.next(key,value)) {
+      results.add(new Tuple(key, value));
+      key = acls.newInstance();
+      value = bcls.newInstance();
+    }
+    return results;
+  }
+
 
   public List<String> collectStrings(Path location) throws Exception {
     CompressionCodecFactory factory = new CompressionCodecFactory(conf);
